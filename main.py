@@ -1,39 +1,42 @@
-import random
-
-from utils import printDocstring
 from generate_map import generateMap
-
-import time
 import json
+from lemmings import Lemming
 import pyxel
+import random
 from tiles import Tile
-from lemmings import Leming
-import sys
-# import pytmx
-# import pyscroll
+import time
+
 
 class Game(object):
     playing = True
     verbose = True
 
+    moving_direction = True
+
     def initing(self):
         """Creating the game instance."""
-        if self.verbose: print("Loading config values.")
+        if self.verbose:
+            print("Loading config values.")
         with open("config.json", 'r') as configFile:
             self.config = json.loads(configFile.read())
             configFile.close()
 
-        if self.verbose: print("Syncing config values.")
+        if self.verbose:
+            print("Syncing config values.")
         self.verbose = self.config["verbose"]
         self.mapFile = self.config["map"]
 
-        if self.verbose: print("Creating the game instance.")
-        pyxel.init(320, 240, "PyLemings")
+        if self.verbose:
+            print("Creating the game instance.")
+        pyxel.init(320, 240, title="PyLemings", fps=2,
+                   display_scale=12, capture_scale=6)
 
-        if self.verbose: print("Loading the map.")
+        if self.verbose:
+            print("Loading the map.")
         pyxel.load("./assets/tileset.pyxres")
 
-        if self.verbose: print("Launching the game loop.")
+        if self.verbose:
+            print("Launching the game loop.")
         pyxel.run(self.update, self.draw)
 
     def loadMap(self):
@@ -63,18 +66,31 @@ class Game(object):
 
             f.close()
 
-
     def update(self):
-        if pyxel.btnp(pyxel.KEY_Q):
+        if pyxel.btnp(pyxel.KEY_P):
             pyxel.quit()
+        if self.moving_direction:
+            if Lemming.moveRight():
+                print('The lemming is moving to the right.')
+            else:
+                print(
+                    'The lemming was next to the wall, changing direction of his walk.')
+                self.moving_direction = False
+                Lemming.moveLeft()
+        else:
+            if Lemming.moveLeft():
+                print('The lemming is moving to the left.')
+            else:
+                print(
+                    'The lemming was next to the wall, changing direction of his walk.')
+                self.moving_direction = True
+                Lemming.moveRight()
 
     def draw(self):
-        # pyxel.cls(0)
-        Leming().draw(16, 208)
+        pyxel.cls(0)
         self.loadMap()
+        Lemming().draw(1, 8)
 
-        Leming().moveRight()
 
-        
 game = Game()
 game.initing()
