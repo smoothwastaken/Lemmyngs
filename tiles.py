@@ -10,7 +10,7 @@ class Tile(object):
     def draw(cls, x, y, tileType):
         """Drawing a block on the screen."""
         # Generating a random number for block variants
-        n = random.randint(0, 100)
+        n = random.randint(0, 1)
 
         if tileType == "void":
             pyxel.blt(x, y, 0, 240, 224, cls.w, cls.h)

@@ -51,15 +51,26 @@ class Game(object):
             for l in map:
                 m = 0
                 for c in l:
+                    # Default block value will be "void"
+                    block_type = "void"
                     if c == 0:
-                        Tile.draw(m * 16, n * 16, "void")
+                        block_type = "void"
+                    elif c == 1:
+                        block_type = "ground"
+                    elif c == 2:
+                        block_type = "brick"
+                    elif c == 3:
+                        block_type = "dirt"
+                    elif c == 4:
+                        block_type = "wooden_box"
+                    elif c == 5:
+                        block_type = "bomb"
+                    elif c == 6:
+                        block_type = "top_door"
+                    elif c == 7:
+                        block_type = "bottom_door"
 
-                    if c == 1:
-                        Tile.draw(m * 16, n * 16, "ground")
-
-                    if c == 2:
-                        Tile.draw(m * 16, n * 16, "brick")
-
+                    Tile.draw(m * 16, n * 16, block_type)
                     m += 1
 
                 n += 1

@@ -23,7 +23,29 @@ def generateMap(fileName: str):
             theMap.append(line)
 
         # Placing the starting door
-        startingDoor = [[0, 0], [1, 0]]
+        theMap[0][0] = 6
+        theMap[1][0] = 7
+
+        # Placing the floors
+        for i in range(20):
+            # Dirt first floor
+            theMap[2][i] = 3
+            # Brick first celling
+            theMap[3][i] = 2
+
+            # Brick first floor
+            theMap[6][i] = 2
+            # Brick second celling
+            theMap[7][i] = 2
+
+            # Brick second floor
+            theMap[10][i] = 2
+            # Brick third celling
+            theMap[11][i] = 2
+
+            # Ground first floor
+            theMap[14][i] = 1
+
 
         # Writing and closing the map file
         f.write(str(theMap))
