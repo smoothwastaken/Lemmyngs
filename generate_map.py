@@ -18,10 +18,15 @@ def generateMap(fileName: str):
 
         startingDoor = [[0, 0], [1, 0]]
 
-        for i in range(1, 22):
+        for i in range(1, 21):
             line = []
-            for j in range(1, 22):
-                line.append(0)
+            for j in range(1, 21):
+                if i == 3 or i == 4 or i == 7 or i == 8 or i == 11 or i == 12 or i == 16:
+                    line.append(2)
+                elif i == 15:
+                    line.append(1)
+                else:
+                    line.append(0)
             theMap.append(line)
 
 

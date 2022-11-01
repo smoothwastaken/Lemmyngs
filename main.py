@@ -52,13 +52,13 @@ class Game(object):
                 m = 0
                 for c in l:
                     if c == 0:
-                        Tile.draw(n * 16, m * 16, "ground")
+                        Tile.draw(m * 16, n * 16, "void")
 
                     if c == 1:
-                        Tile.draw(n * 16, m * 16, "brick")
+                        Tile.draw(m * 16, n * 16, "ground")
 
                     if c == 2:
-                        pass
+                        Tile.draw(m * 16, n * 16, "brick")
 
                     m += 1
 
