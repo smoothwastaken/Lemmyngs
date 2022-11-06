@@ -17,3 +17,6 @@ a cool I.T. school project.
 |8|`right_lemmyng`|`(32,32)` or `(48,32)`|
 |9|`left_lemmyng`|`x`|
 |10|`falling_lemmyng`|`(16,32)`|
+
+## Notes
+I am the only one to work on the project, I'll never finish it on time...
