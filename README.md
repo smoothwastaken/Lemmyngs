@@ -18,5 +18,5 @@ a cool I.T. school project.
 |9|`left_lemmyng`|`x`|
 |10|`falling_lemmyng`|`(16,32)`|
 
-## Notes
-I am the only one to work on the project, I'll never finish it on time...
+
+# COUCOU LES AMIS
