@@ -2,5 +2,7 @@
   "name": "PyLemings",
   "version": "0.1.0",
   "verbose": true,
-  "map": "testing"
+  "map": "testing",
+  "spawn_location": [1,1],
+  "max_lemmyngs": 10
 }

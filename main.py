@@ -1,6 +1,6 @@
 from generate_map import generateMap
 import json
-from lemmings import Lemming
+from lemmings import Lemmyngs
 import pyxel
 import random
 from tiles import Tile
@@ -11,7 +11,9 @@ class Game(object):
     playing = True
     verbose = True
 
-    moving_direction = True
+    nb = 0
+
+    lemmyngs = Lemmyngs()
 
     def initing(self):
         """Creating the game instance."""
@@ -38,6 +40,10 @@ class Game(object):
         if self.verbose:
             print("Launching the game loop.")
         pyxel.run(self.update, self.draw)
+
+        if self.verbose:
+            print("Defining the lemmyngs list.")
+        self.lemmyngs = Lemmyngs()
 
     def loadMap(self):
         if self.mapFile == "":
@@ -80,27 +86,12 @@ class Game(object):
     def update(self):
         if pyxel.btnp(pyxel.KEY_P):
             pyxel.quit()
-        if self.moving_direction:
-            if Lemming.moveRight():
-                print('The lemming is moving to the right.')
-            else:
-                print(
-                    'The lemming was next to the wall, changing direction of his walk.')
-                self.moving_direction = False
-                Lemming.moveLeft()
-        else:
-            if Lemming.moveLeft():
-                print('The lemming is moving to the left.')
-            else:
-                print(
-                    'The lemming was next to the wall, changing direction of his walk.')
-                self.moving_direction = True
-                Lemming.moveRight()
 
     def draw(self):
         pyxel.cls(0)
         self.loadMap()
-        Lemming().draw(1, 8)
+        self.lemmyngs.new_iteration(self.nb)
+        self.nb += 1
 
 
 game = Game()
