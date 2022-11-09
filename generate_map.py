@@ -28,6 +28,7 @@ def generateMap(fileName: str):
 
         # Placing the floors
         for i in range(20):
+            print(i)
             # Dirt first floor
             theMap[2][i] = 3
             # Brick first celling
@@ -43,9 +44,24 @@ def generateMap(fileName: str):
             # Brick third celling
             theMap[11][i] = 2
 
+
             # Ground first floor
             theMap[14][i] = 1
 
+        # Hole first level
+        random_hole = randint(2, 19)
+        theMap[2][random_hole] = 0
+        theMap[3][random_hole] = 0
+
+        # Hole first level
+        random_hole = randint(0, 17)
+        theMap[6][random_hole] = 0
+        theMap[7][random_hole] = 0
+
+        # Hole first level
+        random_hole = randint(0, 19)
+        theMap[10][random_hole] = 0
+        theMap[11][random_hole] = 0
 
         # Writing and closing the map file
         f.write(str(theMap))
