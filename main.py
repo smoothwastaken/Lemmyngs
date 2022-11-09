@@ -90,8 +90,7 @@ class Game(object):
     def draw(self):
         pyxel.cls(0)
         self.loadMap()
-        self.lemmyngs.new_iteration(self.nb)
-        self.nb += 1
+        self.lemmyngs.new_iteration()
 
 
 game = Game()
