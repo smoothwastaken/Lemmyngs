@@ -1,7 +1,7 @@
 <p align="center">
   <br>
   <a href="" rel="noopener">
- <img width=267px height=80px src="https://www.denofgeek.com/wp-content/uploads/2018/12/lemmings_sony_mobile.jpg" alt="Lemming illustration"></a>
+ <img width=100% height=100% src="https://www.denofgeek.com/wp-content/uploads/2018/12/lemmings_sony_mobile.jpg" alt="Lemming illustration"></a>
 </p>
 
 <h3 align="center">@smoothwastaken/Lemmyngs</h3>

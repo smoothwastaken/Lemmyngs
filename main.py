@@ -30,7 +30,7 @@ class Game(object):
 
         if self.verbose:
             print("Creating the game instance.")
-        pyxel.init(320, 240, title="PyLemings", fps=2,
+        pyxel.init(320, 240, title="PyLemings", fps=4,
                    display_scale=12, capture_scale=6)
 
         if self.verbose:

@@ -8,7 +8,7 @@ import os
 class Lemmyng():
     w = 16
     h = 16
-    previous_lemmyng_direction = ""
+    previous_lemmyng_direction = "right"
     lemmyng_direction = "right"
 
     x = 0
@@ -112,7 +112,8 @@ class Lemmyng():
         return self.lemmyng_direction
 
     def set_moving_direction(self, new_moving_direction: str) -> bool:
-        self.previous_lemmyng_direction = self.lemmyng_direction
+        if new_moving_direction is not 'falling':
+            self.previous_lemmyng_direction = self.lemmyng_direction
         self.lemmyng_direction = new_moving_direction
         return True
 
@@ -130,6 +131,7 @@ class Lemmyngs:
             configFile.close()
         spawn_x, spawn_y = self.config["spawn_location"]
         self.generation_int = int(self.config["generation_speed_factor"])
+        self.max_nb_lemmyngs = int(self.config['max_lemmyngs'])
 
     def new_iteration(self) -> None:
         # Add the number of lemmyngs on the map.
@@ -137,7 +139,8 @@ class Lemmyngs:
             while len(self.lemmyngs) != self.nb_lemmyngs:
                 l = Lemmyng(len(self.lemmyngs))
                 self.lemmyngs.append(l)
-            self.nb_lemmyngs += 1
+            if len(self.lemmyngs) < self.max_nb_lemmyngs:
+                self.nb_lemmyngs += 1
             self.generation = 1
         else:
             self.generation += 1
@@ -147,22 +150,36 @@ class Lemmyngs:
             if l.empty_under():
                 l.fall()
                 l.set_moving_direction("falling")
-            elif l.get_moving_direction() in ("right", "falling"):
-                l.set_moving_direction("right")
+
+            elif l.get_moving_direction() == "falling":
+                # The lemmyng is moving depending on his last moving direction (before falling)
+                print(l.previous_lemmyng_direction)
+                if l.previous_lemmyng_direction == "right":
+                    l.set_moving_direction('right')
+                    l.moveRight()
+                elif l.previous_lemmyng_direction == "left":
+                    l.set_moving_direction('left')
+                    l.moveLeft()
+
+            elif l.get_moving_direction() == "right":
                 if l.moveRight():
+                    l.set_moving_direction("right")
                     # The lemming is moving to the right.
                     pass
                 else:
                     # The lemming was next to the wall, changing direction of his walk.
                     l.moveLeft()
-            elif l.get_moving_direction() in ("left", "falling"):
-                l.set_moving_direction("left")
+                    l.set_moving_direction("left")
+
+            elif l.get_moving_direction() == "left":
                 if l.moveLeft():
+                    l.set_moving_direction("left")
                     # The lemming is moving to the left.
                     pass
                 else:
                     # The lemming was next to the wall, changing direction of his walk.
                     l.moveRight()
+                    l.set_moving_direction("right")
             elif l.get_moving_direction() == "falling":
                 if l.fall():
                     # The lemming is moving to the left.
@@ -179,4 +196,4 @@ class Lemmyngs:
 
 if __name__ == "__main__":
     lemmyngs = Lemmyngs()
-    lemmyngs.new_iteration(3)
+    print('LAUNCH IT FROM THE MAIN FILE !!!')

@@ -16,16 +16,18 @@ class Tile(object):
             pyxel.blt(x, y, 0, 240, 224, cls.w, cls.h)
 
         elif tileType == "ground":
-            if n % 2 == 0:
-                pyxel.blt(x, y, 0, 32, 16, cls.w, cls.h)
-            else:
-                pyxel.blt(x, y, 0, 48, 16, cls.w, cls.h)
+            # if n % 2 == 0:
+            #     pyxel.blt(x, y, 0, 32, 16, cls.w, cls.h)
+            # else:
+            #     pyxel.blt(x, y, 0, 48, 16, cls.w, cls.h)
+            pyxel.blt(x, y, 0, 48, 16, cls.w, cls.h)
 
         elif tileType == "brick":
-            if n % 2 == 0:
-                pyxel.blt(x, y, 0, 32, 0, cls.w, cls.h)
-            else:
-                pyxel.blt(x, y, 0, 48, 0, cls.w, cls.h)
+            # if n % 2 == 0:
+            #     pyxel.blt(x, y, 0, 32, 0, cls.w, cls.h)
+            # else:
+            #     pyxel.blt(x, y, 0, 48, 0, cls.w, cls.h)
+            pyxel.blt(x, y, 0, 48, 0, cls.w, cls.h)
 
         elif tileType == "dirt":
             pyxel.blt(x, y, 0, 0, 0, cls.w, cls.h)
