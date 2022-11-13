@@ -10,7 +10,7 @@
 
   "_lemmyngs": "",
   "spawn_location": [1,1],
-  "max_lemmyngs": 2,
-  "speed_factor": 9,
-  "generation_speed_factor": 5
+  "max_lemmyngs": 4,
+  "speed_factor": 7,
+  "generation_speed_factor": 10
 }

@@ -60,6 +60,12 @@ class Game(object):
             f.write(json.dumps(self.bombs_location))
 
         if self.verbose:
+            print("Getting the highest score.")
+        with open('high_score.nepasmechangersinoncestdelatriche', 'r') as f:
+            self.high_score = int(f.read())
+            f.close()
+
+        if self.verbose:
             print("Loading the map.")
         pyxel.load("./assets/tileset.pyxres")
 
@@ -180,6 +186,13 @@ class Game(object):
                 self.score += 50
                 l.reset()
                 self.reset()
+
+        # High score dealing
+        if self.high_score < self.score:
+            with open('high_score.nepasmechangersinoncestdelatriche', 'w') as f:
+                f.write(str(self.score))
+                f.close()
+
 
     def draw(self):
         # pyxel.cls(col=1)
