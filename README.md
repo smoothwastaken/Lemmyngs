@@ -60,7 +60,7 @@ Further information on how to contribute [Here](CONTRIBUTING.md). -->
 |6|`top_door`|`(0,16)`|
 |7|`bottom_door`|`(0,32)`|
 |8|`right_lemmyng`|`(32,32)` or `(48,32)`|
-|9|`left_lemmyng`|`x`|
+|9|`left_lemmyng`|`(32,48)` or `(48,48)`|
 |10|`falling_lemmyng`|`(16,32)`|
 
 <!-- ## 🚀 Deployment <a name = "deployment"></a>
