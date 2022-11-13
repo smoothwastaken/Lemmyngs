@@ -143,8 +143,13 @@ class Game(object):
             e = [pyxel.mouse_x, pyxel.mouse_y, self.block_selected]
             with open(f"./maps/{self.mapFile}.kimarch", "r") as f:
                 map = json.loads(f.read())
-                if map[e[1] // 16][e[0] // 16] == 0 and len(self.added_blocks) <= self.config['max_wooden_box']:
+                if map[e[1] // 16][e[0] // 16] == 0 and len(self.added_blocks) < self.config['max_wooden_box']:
                     self.added_blocks.append(e)
+
+        # Saving added blocks in a file ('placed_block.superfileextention')
+        with open("./assets/placed_block.superfileextention", "w") as f:
+            f.write(json.dumps(self.added_blocks))
+            f.close()
 
     def draw(self):
         # pyxel.cls(col=1)

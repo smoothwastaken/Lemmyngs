@@ -84,9 +84,31 @@ class Lemmyng():
         else:
             return False
 
+    def is_wooden_box_next(self, direction) -> bool:
+        # Opening the file logging all the blocks placed.
+        placed_blocks = []
+        with open('./assets/placed_block.superfileextention', 'r') as f:
+            placed_blocks = json.loads(f.read())
+
+        current_x, current_y = self.get_current_location()
+        print(current_x, current_y)
+        for e in placed_blocks:
+            print(e)
+            print("current x + 1:", current_x + 1, "current y:", current_y)
+            if direction == 'right':
+                if current_x + 1 == e[0] // 16 and current_y == e[1] // 16:
+                    return True
+            elif direction == 'left':
+                if current_x - 1 == e[0] // 16 and current_y == e[1] // 16:
+                    return True
+        return False
+
     def moveRight(self) -> bool:
         # Moving right
         if self.x >= 288:
+            # Cannot move more to the right.
+            return False
+        elif self.is_wooden_box_next('right'):
             # Cannot move more to the right.
             return False
         else:
@@ -96,6 +118,9 @@ class Lemmyng():
     def moveLeft(self) -> bool:
         # Moving left
         if self.x <= -16:
+            # Cannot move more to the left.
+            return False
+        elif self.is_wooden_box_next('left'):
             # Cannot move more to the left.
             return False
         else:
