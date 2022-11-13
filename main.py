@@ -8,16 +8,21 @@ import time
 
 
 class Game(object):
-    playing = True
+    playing = False
     verbose = True
+    game_over = False
 
     fps = 30
     playing_iteration_int = 0
     total_frames = 0
 
+    color = random.randint(1, 15)
+    text_color = random.randint(1, 15)
+
+
     score = 0
 
-    bomb_location = []
+    bombs_location = [[0, 5], [0, 9], [19, 5], [19, 9], [19, 13]]
 
     current_lemmyngs = []
     current_lemmyngs_location = []
@@ -49,6 +54,10 @@ class Game(object):
             print("Activating the mouse.")
         pyxel.mouse(True)
 
+        if self.verbose:
+            print("Storing bomb location on './assets/bombs_location.ousontlesbombes'")
+        with open('./assets/bombs_location.ousontlesbombes', 'w') as f:
+            f.write(json.dumps(self.bombs_location))
 
         if self.verbose:
             print("Loading the map.")
@@ -100,6 +109,10 @@ class Game(object):
 
             f.close()
 
+        # Drawing bombs
+        for e in self.bombs_location:
+            Tile.draw(e[0] * 16, e[1] * 16, 'bomb')
+
         # Drawing Lemmyngs
         for l in self.current_lemmyngs:  # type: ignore
             # Setting the origin location on the map
@@ -130,10 +143,11 @@ class Game(object):
     def update(self):
         if pyxel.btnp(pyxel.KEY_Q):
             pyxel.quit()
+        if pyxel.btnp(pyxel.KEY_SPACE):
+            self.playing = True
+            self.game_over = False
         if pyxel.btnp(pyxel.KEY_H):
             self.block_selected = "wooden_box"
-        if pyxel.btnp(pyxel.KEY_J):
-            self.block_selected = "bomb"
         if pyxel.btnp(pyxel.MOUSE_BUTTON_RIGHT):
             mouse_location = [pyxel.mouse_x, pyxel.mouse_y]
             for e in self.added_blocks:
@@ -152,6 +166,14 @@ class Game(object):
             f.write(json.dumps(self.added_blocks))
             f.close()
 
+        # Touching a bomb -> Game over
+        for bomb_location in self.bombs_location:
+            for l in self.current_lemmyngs:
+                if l.current_location[0] == bomb_location[0] * 16 and l.current_location[1] == bomb_location[1] * 16:
+                    print('game over !')
+                    self.game_over = True
+
+        # Getting a score
         for l in self.current_lemmyngs:
             current_x, current_y = l.current_location
             if current_x == 0 and current_y == 208:
@@ -161,27 +183,36 @@ class Game(object):
 
     def draw(self):
         # pyxel.cls(col=1)
-        self.loadMap()
+        if not self.game_over and self.playing == True:
+            self.loadMap()
 
-        if self.playing_iteration_int + ((self.config["speed_factor"] * self.fps) // 10) >= self.fps:
-            self.current_lemmyngs = self.lemmyngs.new_iteration()
+            if self.playing_iteration_int + ((self.config["speed_factor"] * self.fps) // 10) >= self.fps:
+                self.current_lemmyngs = self.lemmyngs.new_iteration()
 
-            self.playing_iteration_int = 0
+                self.playing_iteration_int = 0
+            else:
+                self.playing_iteration_int += 1
+
+            pyxel.text(250, 1, f"Score: {self.score} points", 7)
+            pyxel.text(280, 11, f"Time: {self.total_frames // self.fps}s", 7)
+            if self.block_selected == "wooden_box":
+                self.selected_block_name = "Wooden Box"
+            elif self.block_selected == "bomb":
+                self.selected_block_name = "Bomb"
+            pyxel.text(
+                250, 21, f"{self.selected_block_name}: {len(self.added_blocks)}", 10)
+
+            Tile.draw((pyxel.mouse_x // 16) * 16,
+                      (pyxel.mouse_y // 16) * 16, "selection")
+
+            self.total_frames += 1
         else:
-            self.playing_iteration_int += 1
-
-        pyxel.text(250, 1, f"Score: {self.score} points", 7)
-        pyxel.text(280, 11, f"Time: {self.total_frames // self.fps}s", 7)
-        if self.block_selected == "wooden_box":
-            self.selected_block_name = "Wooden Box"
-        elif self.block_selected == "bomb":
-            self.selected_block_name = "Bomb"
-        pyxel.text(
-            250, 21, f"{self.selected_block_name}: {len(self.added_blocks)}", 10)
-
-        Tile.draw((pyxel.mouse_x // 16) * 16, (pyxel.mouse_y // 16) * 16, "selection")
-
-        self.total_frames += 1
+            if not self.playing:
+                pyxel.cls(self.color)
+                pyxel.text(120, 100, 'Press SPACE To Start', self.text_color)
+            else:
+                pyxel.cls(1)
+                pyxel.text(150, 100, 'Game Over !', 8)
 
 game = Game()
 game.initing()
