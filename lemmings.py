@@ -31,7 +31,7 @@ class Lemmyng():
         if self.lemmyng_direction == "right":
             pyxel.blt(x + self.x, y + self.y, 0, 32, 32, self.w, self.h)
         elif self.lemmyng_direction == "left":
-            pyxel.blt(x + self.x, y + self.y, 0, 48, 32, self.w, self.h)
+            pyxel.blt(x + self.x, y + self.y, 0, 32, 48, self.w, self.h)
         elif self.lemmyng_direction == "falling":
             pyxel.blt(x + self.x, y + self.y, 0, 16, 32, self.w, self.h)
 
