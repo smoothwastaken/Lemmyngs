@@ -17,6 +17,8 @@ class Game(object):
 
     nb = 0
 
+    bomb_location = []
+
     current_lemmyngs = []
     current_lemmyngs_location = []
 
@@ -141,7 +143,7 @@ class Game(object):
             e = [pyxel.mouse_x, pyxel.mouse_y, self.block_selected]
             with open(f"./maps/{self.mapFile}.kimarch", "r") as f:
                 map = json.loads(f.read())
-                if map[e[1] // 16][e[0] // 16] == 0:
+                if map[e[1] // 16][e[0] // 16] == 0 and len(self.added_blocks) <= self.config['max_wooden_box']:
                     self.added_blocks.append(e)
 
     def draw(self):
@@ -160,7 +162,8 @@ class Game(object):
             self.selected_block_name = "Wooden Box"
         elif self.block_selected == "bomb":
             self.selected_block_name = "Bomb"
-        pyxel.text(275, 11, f"{self.selected_block_name}", 10)
+        pyxel.text(
+            250, 11, f"{self.selected_block_name}: {len(self.added_blocks)}", 10)
 
         Tile.draw((pyxel.mouse_x // 16) * 16, (pyxel.mouse_y // 16) * 16, "selection")
 

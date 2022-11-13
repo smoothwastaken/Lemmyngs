@@ -1,8 +1,14 @@
 {
+  "_general": "",
   "name": "PyLemings",
   "version": "0.1.4",
   "verbose": true,
+
+  "_map": "",
   "map": "testing",
+  "max_wooden_box": 10,
+
+  "_lemmyngs": "",
   "spawn_location": [1,1],
   "max_lemmyngs": 1,
   "speed_factor": 5,
