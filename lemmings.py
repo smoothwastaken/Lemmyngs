@@ -25,6 +25,11 @@ class Lemmyng():
         x, y = self.get_current_location()
         return f"""{self.get_id()} {x} {y} {self.get_moving_direction()}"""
 
+    def reset(self) -> None:
+        self.x = 0
+        self.y = 0
+        self.set_moving_direction('right')
+
     def draw(self, x: int, y: int) -> None:
         # Setting the origin location on the map
         self.origin_location = (x, y)
@@ -91,10 +96,7 @@ class Lemmyng():
             placed_blocks = json.loads(f.read())
 
         current_x, current_y = self.get_current_location()
-        print(current_x, current_y)
         for e in placed_blocks:
-            print(e)
-            print("current x + 1:", current_x + 1, "current y:", current_y)
             if direction == 'right':
                 if current_x + 1 == e[0] // 16 and current_y == e[1] // 16:
                     return True

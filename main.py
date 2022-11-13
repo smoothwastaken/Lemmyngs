@@ -15,7 +15,7 @@ class Game(object):
     playing_iteration_int = 0
     total_frames = 0
 
-    nb = 0
+    score = 0
 
     bomb_location = []
 
@@ -124,7 +124,8 @@ class Game(object):
             for e in self.added_blocks:
                 Tile.draw((e[0] // 16) * 16, (e[1] // 16) * 16, e[2])
 
-
+    def reset(self) -> None:
+        self.added_blocks = []
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_Q):
@@ -151,6 +152,13 @@ class Game(object):
             f.write(json.dumps(self.added_blocks))
             f.close()
 
+        for l in self.current_lemmyngs:
+            current_x, current_y = l.current_location
+            if current_x == 0 and current_y == 208:
+                self.score += 50
+                l.reset()
+                self.reset()
+
     def draw(self):
         # pyxel.cls(col=1)
         self.loadMap()
@@ -162,13 +170,14 @@ class Game(object):
         else:
             self.playing_iteration_int += 1
 
-        pyxel.text(280, 1, f"Time: {self.total_frames // self.fps}s", 7)
+        pyxel.text(250, 1, f"Score: {self.score} points", 7)
+        pyxel.text(280, 11, f"Time: {self.total_frames // self.fps}s", 7)
         if self.block_selected == "wooden_box":
             self.selected_block_name = "Wooden Box"
         elif self.block_selected == "bomb":
             self.selected_block_name = "Bomb"
         pyxel.text(
-            250, 11, f"{self.selected_block_name}: {len(self.added_blocks)}", 10)
+            250, 21, f"{self.selected_block_name}: {len(self.added_blocks)}", 10)
 
         Tile.draw((pyxel.mouse_x // 16) * 16, (pyxel.mouse_y // 16) * 16, "selection")
 

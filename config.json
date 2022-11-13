@@ -6,11 +6,11 @@
 
   "_map": "",
   "map": "testing",
-  "max_wooden_box": 10,
+  "max_wooden_box": 2,
 
   "_lemmyngs": "",
   "spawn_location": [1,1],
-  "max_lemmyngs": 1,
-  "speed_factor": 5,
+  "max_lemmyngs": 10,
+  "speed_factor": 8,
   "generation_speed_factor": 5
 }
