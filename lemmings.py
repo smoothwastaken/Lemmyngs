@@ -21,6 +21,10 @@ class Lemmyng():
     def __init__(self, id: int) -> None:
         self.id = id
 
+    def __str__(self) -> str:
+        x, y = self.get_current_location()
+        return f"""{self.get_id()} {x} {y} {self.get_moving_direction()}"""
+
     def draw(self, x: int, y: int) -> None:
         # Setting the origin location on the map
         self.origin_location = (x, y)
@@ -28,12 +32,12 @@ class Lemmyng():
         # Placing the lemmyng on the map
         x *= self.w
         y *= self.h
-        if self.lemmyng_direction == "right":
-            pyxel.blt(x + self.x, y + self.y, 0, 32, 32, self.w, self.h)
-        elif self.lemmyng_direction == "left":
-            pyxel.blt(x + self.x, y + self.y, 0, 32, 48, self.w, self.h)
-        elif self.lemmyng_direction == "falling":
-            pyxel.blt(x + self.x, y + self.y, 0, 16, 32, self.w, self.h)
+        # if self.lemmyng_direction == "right":
+        #     pyxel.blt(x + self.x, y + self.y, 0, 32, 32, self.w, self.h)
+        # elif self.lemmyng_direction == "left":
+        #     pyxel.blt(x + self.x, y + self.y, 0, 32, 48, self.w, self.h)
+        # elif self.lemmyng_direction == "falling":
+        #     pyxel.blt(x + self.x, y + self.y, 0, 16, 32, self.w, self.h)
 
         # Updating the current lemmyng's location
         self.current_location = (x + self.x, y + self.y)
@@ -71,13 +75,10 @@ class Lemmyng():
 
         # Getting the lemmyng's position
         x_location, y_location = self.get_current_location()
-        print("x:", x_location)
-        print("y:", y_location)
 
         # Getting the block under the lemmyng's position
         # Verifying if the block under the lemmyng is empty
         # Returning whether the block under the lemmyng is empty or not
-        print(map[x_location - 1][y_location])
         if map[y_location + 1][x_location] == 0:
             return True
         else:
@@ -153,7 +154,6 @@ class Lemmyngs:
 
             elif l.get_moving_direction() == "falling":
                 # The lemmyng is moving depending on his last moving direction (before falling)
-                print(l.previous_lemmyng_direction)
                 if l.previous_lemmyng_direction == "right":
                     l.set_moving_direction('right')
                     l.moveRight()
@@ -193,6 +193,7 @@ class Lemmyngs:
 
             l.draw(1, 1)
 
+        return self.lemmyngs
 
 if __name__ == "__main__":
     lemmyngs = Lemmyngs()

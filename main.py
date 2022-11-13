@@ -11,7 +11,17 @@ class Game(object):
     playing = True
     verbose = True
 
+    fps = 30
+    playing_iteration_int = 0
+    total_frames = 0
+
     nb = 0
+
+    current_lemmyngs = []
+    current_lemmyngs_location = []
+
+    added_blocks = []
+    block_selected = "wooden_box"
 
     lemmyngs = Lemmyngs()
 
@@ -30,8 +40,13 @@ class Game(object):
 
         if self.verbose:
             print("Creating the game instance.")
-        pyxel.init(320, 240, title="PyLemings", fps=4,
-                   display_scale=12, capture_scale=6)
+        pyxel.init(320, 240, title="PyLemings", fps=self.fps,
+                   display_scale=1, capture_scale=10)
+
+        if self.verbose:
+            print("Activating the mouse.")
+        pyxel.mouse(True)
+
 
         if self.verbose:
             print("Loading the map.")
@@ -83,15 +98,61 @@ class Game(object):
 
             f.close()
 
+        # Drawing Lemmyngs
+        for l in self.current_lemmyngs:
+            # Setting the origin location on the map
+            x = 1
+            y = 1
+            l.origin_location = (x, y)
+
+            # Placing the lemmyng on the map
+            x *= l.w
+            y *= l.h
+            if l.lemmyng_direction == "right":
+                pyxel.blt(x + l.x, y + l.y, 0, 32, 32, l.w, l.h)
+            elif l.lemmyng_direction == "left":
+                pyxel.blt(x + l.x, y + l.y, 0, 32, 48, l.w, l.h)
+            elif l.lemmyng_direction == "falling":
+                pyxel.blt(x + l.x, y + l.y, 0, 16, 32, l.w, l.h)
+
+            # Updating the current lemmyng's location
+            l.current_location = (x + l.x, y + l.y)
+
+        if len(self.added_blocks) > 0:
+            for e in self.added_blocks:
+                Tile.draw((e[0] // 16) * 16,
+                          (e[1] // 16) * 16, e[2])
+
     def update(self):
-        if pyxel.btnp(pyxel.KEY_P):
+        if pyxel.btnp(pyxel.KEY_Q):
             pyxel.quit()
+        if pyxel.btnp(pyxel.KEY_H):
+            self.block_selected = "wooden_box"
+        if pyxel.btnp(pyxel.KEY_J):
+            self.block_selected = "bomb"
+        if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
+            self.added_blocks.append(
+                [pyxel.mouse_x, pyxel.mouse_y, self.block_selected])
 
     def draw(self):
-        pyxel.cls(0)
+        # pyxel.cls(col=1)
         self.loadMap()
-        self.lemmyngs.new_iteration()
 
+        if self.playing_iteration_int + ((self.config["speed_factor"] * self.fps) // 10) >= self.fps:
+            self.current_lemmyngs = self.lemmyngs.new_iteration()
+
+            self.playing_iteration_int = 0
+        else:
+            self.playing_iteration_int += 1
+
+        pyxel.text(280, 1, f"Time: {self.total_frames // self.fps}s", 7)
+        if self.block_selected == "wooden_box":
+            self.selected_block_name = "Wooden Box"
+        elif self.block_selected == "bomb":
+            self.selected_block_name = "Bomb"
+        pyxel.text(275, 11, f"{self.selected_block_name}", 10)
+
+        self.total_frames += 1
 
 game = Game()
 game.initing()
