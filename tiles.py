@@ -6,27 +6,29 @@ class Tile(object):
     w = 16
     h = 16
 
+    n = random.randint(0, 1)
+
     @classmethod
     def draw(cls, x, y, tileType):
         """Drawing a block on the screen."""
         # Generating a random number for block variants
-        n = random.randint(0, 1)
+        
 
         if tileType == "void":
             pyxel.blt(x, y, 0, 240, 224, cls.w, cls.h)
 
         elif tileType == "ground":
-            # if n % 2 == 0:
-            #     pyxel.blt(x, y, 0, 32, 16, cls.w, cls.h)
-            # else:
-            #     pyxel.blt(x, y, 0, 48, 16, cls.w, cls.h)
+            if cls.n % 2 == 0:
+                pyxel.blt(x, y, 0, 32, 16, cls.w, cls.h, 0)
+            else:
+                pyxel.blt(x, y, 0, 48, 16, cls.w, cls.h, 0)
             pyxel.blt(x, y, 0, 48, 16, cls.w, cls.h)
 
         elif tileType == "brick":
-            # if n % 2 == 0:
-            #     pyxel.blt(x, y, 0, 32, 0, cls.w, cls.h)
-            # else:
-            #     pyxel.blt(x, y, 0, 48, 0, cls.w, cls.h)
+            if cls.n % 2 == 0:
+                pyxel.blt(x, y, 0, 32, 0, cls.w, cls.h, 0)
+            else:
+                pyxel.blt(x, y, 0, 48, 0, cls.w, cls.h, 0)
             pyxel.blt(x, y, 0, 48, 0, cls.w, cls.h)
 
         elif tileType == "dirt":
@@ -43,3 +45,6 @@ class Tile(object):
 
         elif tileType == "bottom_door":
             pyxel.blt(x, y, 0, 0, 32, cls.w, cls.h)
+
+        elif tileType == "selection":
+            pyxel.blt(x, y, 0, 16, 64, cls.w, cls.h, 0)

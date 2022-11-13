@@ -6,6 +6,7 @@ import json
 
 # this file is not finished. it'll be finished when lemmings generation and collision will be functional.
 
+
 def generateMap(fileName: str):
     try:
         file = open(f"./maps/{fileName}.kimarch", "x")
@@ -43,7 +44,6 @@ def generateMap(fileName: str):
             theMap[10][i] = 2
             # Brick third celling
             theMap[11][i] = 2
-
 
             # Ground first floor
             theMap[14][i] = 1

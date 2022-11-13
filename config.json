@@ -4,7 +4,7 @@
   "verbose": true,
   "map": "testing",
   "spawn_location": [1,1],
-  "max_lemmyngs": 2,
-  "speed_factor": 9,
-  "generation_speed_factor": 10
+  "max_lemmyngs": 1,
+  "speed_factor": 5,
+  "generation_speed_factor": 5
 }

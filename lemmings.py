@@ -193,7 +193,7 @@ class Lemmyngs:
 
             l.draw(1, 1)
 
-        return self.lemmyngs
+        return self.lemmyngs  # type: ignore
 
 if __name__ == "__main__":
     lemmyngs = Lemmyngs()

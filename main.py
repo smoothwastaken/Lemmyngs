@@ -63,7 +63,7 @@ class Game(object):
     def loadMap(self):
         if self.mapFile == "":
             mapName = random.randint(0, 100000)
-            generateMap(mapName)
+            generateMap(str(mapName))
             self.mapFile = mapName
 
         with open(f"./maps/{self.mapFile}.kimarch", "r") as f:
@@ -99,7 +99,7 @@ class Game(object):
             f.close()
 
         # Drawing Lemmyngs
-        for l in self.current_lemmyngs:
+        for l in self.current_lemmyngs:  # type: ignore
             # Setting the origin location on the map
             x = 1
             y = 1
@@ -109,19 +109,20 @@ class Game(object):
             x *= l.w
             y *= l.h
             if l.lemmyng_direction == "right":
-                pyxel.blt(x + l.x, y + l.y, 0, 32, 32, l.w, l.h)
+                pyxel.blt(x + l.x, y + l.y, 0, 32, 32, l.w, l.h, 0)
             elif l.lemmyng_direction == "left":
-                pyxel.blt(x + l.x, y + l.y, 0, 32, 48, l.w, l.h)
+                pyxel.blt(x + l.x, y + l.y, 0, 32, 48, l.w, l.h, 0)
             elif l.lemmyng_direction == "falling":
-                pyxel.blt(x + l.x, y + l.y, 0, 16, 32, l.w, l.h)
+                pyxel.blt(x + l.x, y + l.y, 0, 16, 32, l.w, l.h, 0)
 
             # Updating the current lemmyng's location
             l.current_location = (x + l.x, y + l.y)
 
         if len(self.added_blocks) > 0:
             for e in self.added_blocks:
-                Tile.draw((e[0] // 16) * 16,
-                          (e[1] // 16) * 16, e[2])
+                Tile.draw((e[0] // 16) * 16, (e[1] // 16) * 16, e[2])
+
+
 
     def update(self):
         if pyxel.btnp(pyxel.KEY_Q):
@@ -130,9 +131,18 @@ class Game(object):
             self.block_selected = "wooden_box"
         if pyxel.btnp(pyxel.KEY_J):
             self.block_selected = "bomb"
+        if pyxel.btnp(pyxel.MOUSE_BUTTON_RIGHT):
+            mouse_location = [pyxel.mouse_x, pyxel.mouse_y]
+            for e in self.added_blocks:
+                if e[0] // 16 == mouse_location[0] // 16 and e[1] // 16 == mouse_location[1] // 16:
+                    self.added_blocks.remove(e)
+
         if pyxel.btnp(pyxel.MOUSE_BUTTON_LEFT):
-            self.added_blocks.append(
-                [pyxel.mouse_x, pyxel.mouse_y, self.block_selected])
+            e = [pyxel.mouse_x, pyxel.mouse_y, self.block_selected]
+            with open(f"./maps/{self.mapFile}.kimarch", "r") as f:
+                map = json.loads(f.read())
+                if map[e[1] // 16][e[0] // 16] == 0:
+                    self.added_blocks.append(e)
 
     def draw(self):
         # pyxel.cls(col=1)
@@ -151,6 +161,8 @@ class Game(object):
         elif self.block_selected == "bomb":
             self.selected_block_name = "Bomb"
         pyxel.text(275, 11, f"{self.selected_block_name}", 10)
+
+        Tile.draw((pyxel.mouse_x // 16) * 16, (pyxel.mouse_y // 16) * 16, "selection")
 
         self.total_frames += 1
 
